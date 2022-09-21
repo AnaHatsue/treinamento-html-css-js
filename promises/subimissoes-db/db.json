@@ -1,0 +1,29 @@
+{
+  "submissoes": [
+    {
+      "id": 1,
+      "nome": "Equipe ITC",
+      "tipo": 1
+    },
+    {
+      "nome": "Pedro",
+      "tipo": "2",
+      "id": 2
+    },
+    {
+      "nome": "Pedro",
+      "tipo": "2",
+      "id": 3
+    },
+    {
+      "nome": "Ana",
+      "tipo": "3",
+      "id": 4
+    },
+    {
+      "nome": "Ana",
+      "tipo": "3",
+      "id": 5
+    }
+  ]
+}
