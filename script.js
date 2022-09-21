@@ -1,179 +1,139 @@
-//Forma tradicional de declarar função
-function linguagem() {
-    //Variáveis:
-    var a; //O var quase não é mais utilizado, porém permite que a variável seja declarada e depois inicializadas.
-    let b; 
-    const c = 5; //Essa é uma variável constante e não é possível alterar o seu valor depois. E já precisa ser inicializada.
+/**
+ * Consulta dados na API
+ * @returns {Promise<{ tipo: number; nome: string }[]>} Lista de submissões
+ */
 
-    //Valores:
-    let numero = 0;
-    let boleano = true;
-    let texto = '';
-    let data = new Date(); //Data de hoje.
+//  const getDataMock = () => 
+//  fetch('http://localhost:3000/submissoes')
+//    .then(response => response.json())
+//    .catch(err => console.error(err));
 
-    //Tipos:
-    typeof numero;
-    typeof boleano;
-    typeof texto;
-    typeof data;
+//RESCRITA DO CÓDIGO
 
-    //Operadores:
-    numero =='0'; //Compara o valor final da variável.
-    numero === 0; //Compara o valor e o tipo da variável.
-    !boleano; //falso
-    data > new Date(2022, 01, 01);
-
-    //null e indefined
-    let indefinido; 
-    let nulo = null;
-    typeof indefinido; //Se a variável não tiver o tipo e nem o valor definido, retornará indefined.
-    typeof nulo; //Mas se tiver pelo menos o tipo definido, mas sem valor será null.
-
-    //Arrays e Objetos
-    let lista = []; //Quando interagir com lista é sempre "[]".
-    let objeto = {}; //Quando interagir com objeto é sempre ".campo".
-
-    //laços e blocos de execução
-    for (let i = 0; i < lista.length; i++) {
-        console.log(lista[i]);
-    }
-
-    //foreach
-    for (const item of lista) {
-        console.log(item);
-    } //Sempre melhor escolher fazer um foreach porque ele faz o mesmo que o for sem precisar criar variáveis "i", "j", "k", etc.
-
-    //while
-    while(false) {}
-
-    //do while
-    do {} while (false);
-
-    //forEach do objeto array
-    lista.forEach ((item) => { //Pode funcionar como um foreach, mas é um método da lista que leva como parâmetro uma variável, a qual receberá o item da array.
-        console.log(item);
-    }) //"=>": Arrow function.
-
-    // if e else
-    if (lista) console.log('array'); //Quando escritos em uma única linha, não precisa colocar chaves. Esse tipo de código é estranho, mas o if analisará a lista se ela estiver defined e retornará um valor booleano.
-    else console.log('objeto'); 
-
-    if (objeto) { //Mas em blocos, precisa das chaves.
-        console.log('objeto');
-    } else {
-        console.log('vazio');
-    }
-
-    // switch case
-    let x = 1
-    switch (x) {
-        case 1:
-            console.log('1');
-            break;
-        default:
-            console.log('desconhecido');
-    }
-
-    //ternário
-    true ? 'verdadeiro' : 'falso';
+const getData = () => {
+    return fetch('http://localhost:3000/submissoes', {
+        method: "GET",
+        headers: {"Content-Type": "application/json"},
+    })
+    .then(response => response.json())
+    .catch(err => console.log(err));
 }
 
-function soma(num1, num2) {
-    return num1 + num2;
-}
-
-//Funções
-const funcao = function() {
-    linguagem();
-}
 
 /**
  * Envia dados para API
  * @param {{ tipo: number; nome: string }} novaSubmissao
  * @returns {Promise<{ tipo: number; nome: string }>} Nova submissão
  */
- const postData = (novaSubmissao) =>
- fetch(`http://localhost:3000/submissoes`, {
-   method: "POST",
-   headers: {
-     "Content-Type": "application/json",
-   },
-   body: JSON.stringify(novaSubmissao),
- })
-   .then((response) => response.json())
-   .catch((err) => console.error(err));
 
-/**
- * Consulta dados na API
- * @returns {Promise<{ tipo: number; nome: string }[]>} Lista de submissões
- */
- const getData = () => 
- fetch('http://localhost:3000/submissoes')
-   .then(response => response.json())
-   .catch(err => console.error(err));
+//  const postDataMock = (novaSubmissao) => //Como não está entre chaves, ele já retorna o fetch automaticamente. Se colocar entre chaves precisa adicionar o return.
 
-/**
- * Adiciona item na lista do html
- * @param {{ tipo: number; nome: string }} item
- * @param {HTMLUListElement} ulEl 
- */
- const addListItem = (item, ulEl) => {
-    const liEl = document.createElement("li");
-    liEl.innerText = `${item.nome} - Tipo: ${item.tipo}`;
-    ulEl.appendChild(liEl);
-  } 
 
-/**
- * Adiciona lista de submits consultada
- * @param {HTMLUListElement} ulEl 
- */
- const addSubmits = async (ulEl) => {
-    // Trabalhando com promises usando async/await
-    const result = await getData();
-  
-    // Se result existir e tiver elementos no array
-    if (result && result.length)
-    result.forEach((item) => addListItem(item, ulEl));
-  }
+//  //Fetch tem um argumento obrigatório que é o local do recurso a ser adquirida. E retornará uma promessa se a aquisição foi bem sucedida ou não (response e catch).
+//  fetch(`http://localhost:3000/submissoes`, {
 
-/** Executa o submit do formulário da página
-* @param {Event} event Evento de submit
-*/
-//Arrow Function
-const funcao2 = () => {
-    funcao();
+//  //O método de requisição HTTP é o que indica qual ação será executada com a API. Nesse caso será o método de postagem.
+//  method: "POST",
+
+//  //Os cabeçalhos HTTP passam informaões entre o cliente e servidor, com informações adicionais ou respostas. Nesse caso ele manda um arquivo json sem qualquer novo conteúdo, porque ele será mandado no body.
+//    headers: {
+//      "Content-Type": "application/json",
+//    },
+
+// //No body são enviadas as informações necessárias para o POST. Nesse caso o parâmetro novaSubmissao foi transformado em objeto para ser postado na API.
+//    body: JSON.stringify(novaSubmissao),
+//  })
+ 
+//  //O HTTp tem alguns códigos de resposta. A confirmação é código 200; 500 Erro interno no servidor; 400 Tem alguma coisa errada na requisição.
+//    .then((response) => response.json())
+//    .catch((err) => console.error(err));
+
+
+
+
+//REESCRITA DO CÓDIGO
+
+const postData = (novaSubmissao) => {
+    return fetch('http://localhost:3000/submissoes',{
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(novaSubmissao),
+    })
+    .then((response) => response.json())
+    .catch((err) => console.log(err));
 }
 
-var square = function(numero) {return numero * numero}; 
-var x = square(4) //Funções são declarações também, então é permitido que isso aconteça e x receberá valor 16.
 
-//Orientação à eventos / Callback
-document.addEventListener('DOMContentLoaded', function(){
-    console.log('ola mundo'); //Essa função fica assistindo/listening o evento acontecer.
-});
+/**
+ * Função que cria itens da lista no index.html.
+ * @param {{ tipo: number; nome: string }} item
+ * @param {HTMLOListElement} elementoLista 
+ */
+
+//  const addListItemMock = (item, ulEl) => {
+//     const liEl = document.createElement("li");
+        //"li" significa item de lista. Nesse caso ele está criando um novo <li> no html.
+//     liEl.innerText = `${item.nome} - Tipo: ${item.tipo}`;
+//     ulEl.appendChild(liEl);
+//  }
+
+//REESCRITA DO CÓDIGO
+
+const addListItem = (item, elementoLista) => {
+    const itemLista = document.createElement("li");
+    itemLista.innerText = `${item.nome} - Tipo ${item.tipo}`;
+    elementoLista.appendChild(itemLista);
+}
+
+
+/**
+ * Função para adicionar lista de submits na página.
+ * @param {HTMLOListElement} elementoLista 
+ */
+
+// const addSubmitsMock = async (elementoLista) => {
+//     //Essa função assíncrona consulta na API para fazer a lista de submits e espera a resposta.
+//     const result = await getData();
   
-//   function onSubmit(event) {
-//     event.preventDefault(); //Evita que a página carregue cada vez que submite o formulário.
-//     console.log(event);
-//     console.log('submetido');
-//   }
+//     // Se a consulta der certo (200) e tiver dados (> 0) irá realizar a iteração.
+//     if (result && result.length)
 
+//     //O forEach passa por todos os elementos de result e coloca na variável item. Depois ele chama a função addListItem para adicionar esses items no html.
+//     result.forEach((item) => addListItem(item, elementoLista));
+// }
+
+//REESCRITA DO CÓDIGO
+
+const addSubmits = async (elementoLista) => {
+    const result = await getData();
+    if (result && result.length) {
+        result.forEach((item) => {
+            addListItem(item, elementoLista);
+        })
+   }
+}
+
+  
 /**
  * Executa o submit do formulário da página
  * @param {Event} event Evento de submit
  */
  const onSubmit = (event) => {
-    event.preventDefault();
-    const ulEl = document.querySelector('.main ul');
+    //Para evitar que a página carregue novamente ao enviar o formulário:
+    event.preventDefault(); 
+
+    //Ele procura dentro do html o trecho ".main ol" e armazena em elementoLista.
+    const elementoLista = document.querySelector('.main ol');
   
-    if (ulEl) {
+    //
+    if (elementoLista) {
       const submitedValue = {
         nome: event.target.nome.value,
         tipo: event.target.tipo.value,
       };
       // Trabalhando com promises sem uso do async/await
       postData(submitedValue).then((novaSubmissao) => {
-        addListItem(novaSubmissao, ulEl);
+        addListItem(novaSubmissao, elementoLista);
       });
     }
   };
@@ -184,17 +144,24 @@ document.addEventListener('DOMContentLoaded', function(){
 const onLoad = () => {
     const footerEl = document.querySelector('.footer p');
     const formEl = document.querySelector('form');
-    const ulEl = document.querySelector(".submits ul");
+    const elementoLista = document.querySelector(".submits ol");
     // verifica o elemento buscado
-    if (footerEl)
+    if (footerEl){
         footerEl.innerHTML += ` - ${new Date().getFullYear()}`;
+    }
+    
     // verifica o elemento buscado
     if (formEl) formEl.addEventListener('submit', onSubmit);
+    
     // verifica o elemento buscado
-    if (ulEl)
-    addSubmits(ulEl);
+    if (elementoLista) {
+        addSubmits(elementoLista);
+    }
+    
     // remove evento do documento
     document.removeEventListener('DOMContentLoaded', onLoad);
 };
-// adiciona evento no documento
+
+
+// PRIMEIRA LINHA DE CÓDIGO EXECUTADA NA PÁGINA.
 document.addEventListener('DOMContentLoaded', onLoad);
